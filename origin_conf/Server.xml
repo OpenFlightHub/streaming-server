@@ -42,7 +42,6 @@
 			<API>
 				<Port>${env:OME_API_PORT:8081}</Port>
 				<WorkerCount>1</WorkerCount>
-				<AccessToken>as878761iuhsd8787t1gsd</AccessToken>
 			</API>
 		</Managers>
 
@@ -118,6 +117,22 @@
 		</Publishers>
 	</Bind>
 
+	<Managers>
+		<Host>
+			<Names>
+				<Name>www.openflighthub.org</Name>
+			</Names>
+			<TLS>
+				<CertPath>/cert/live/openflighthub.org/cert.pem</CertPath>
+				<KeyPath>/cert/live/openflighthub.org/privkey.pem</KeyPath>
+				<ChainCertPath>/cert/live/openflighthub.org/fullchain.pem</ChainCertPath>
+			</TLS>
+		</Host>
+		<API>
+			<AccessToken>as878761iuhsd8787t1gsd</AccessToken>
+		</API>
+	</Managers>
+
 	<VirtualHosts>
 		<!--
 			You can include multiple XML files by doing the following:
@@ -132,13 +147,6 @@
 			<!-- Settings for multi ip/domain and TLS -->
 			<Host>
 				<Names>
-					<!-- Host names
-						<Name>stream1.airensoft.com</Name>
-						<Name>stream2.airensoft.com</Name>
-						<Name>*.sub.airensoft.com</Name>
-						<Name>192.168.0.1</Name>
-					-->
-					<!--<Name>*</Name>-->
 					<Name>www.openflighthub.org</Name>
 				</Names>
 				<TLS>
