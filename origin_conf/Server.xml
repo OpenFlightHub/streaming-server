@@ -118,16 +118,6 @@
 	</Bind>
 
 	<Managers>
-		<Host>
-			<Names>
-				<Name>www.openflighthub.org</Name>
-			</Names>
-			<TLS>
-				<CertPath>/cert/live/openflighthub.org/cert.pem</CertPath>
-				<KeyPath>/cert/live/openflighthub.org/privkey.pem</KeyPath>
-				<ChainCertPath>/cert/live/openflighthub.org/fullchain.pem</ChainCertPath>
-			</TLS>
-		</Host>
 		<API>
 			<AccessToken>control:as878761iuhsd8787t1gsd</AccessToken>
 		</API>
