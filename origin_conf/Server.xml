@@ -34,7 +34,6 @@
 		</P2P>
 	</Modules>
 
-	<!-- Settings for the ports to bind -->
 	<Bind>
 		<!-- Enable this configuration if you want to use API Server -->
 
@@ -117,62 +116,26 @@
 		</Publishers>
 	</Bind>
 
-	<Managers>
-		<API>
-			<AccessToken>control:as878761iuhsd8787t1gsd</AccessToken>
-		</API>
-	</Managers>
-
 	<VirtualHosts>
-		<!--
-			You can include multiple XML files by doing the following:
-			<VirtualHost include="sites-enabled/*.xml" />
-		-->
 		<VirtualHost include="VHost*.xml" />
 		<VirtualHost>
 			<Name>default</Name>
 			<!--Distribution is a value that can be used when grouping the same vhost distributed across multiple servers. This value is output to the events log, so you can use it to aggregate statistics. -->
-			<Distribution>ovenmediaengine.com</Distribution>
+			<Distribution>openflighthub.org</Distribution>
 
 			<!-- Settings for multi ip/domain and TLS -->
 			<Host>
 				<Names>
-					<Name>www.openflighthub.org</Name>
+					<Name>stream.openflighthub.org</Name>
 				</Names>
 				<TLS>
-					<CertPath>/cert/live/openflighthub.org/cert.pem</CertPath>
-					<KeyPath>/cert/live/openflighthub.org/privkey.pem</KeyPath>
-					<ChainCertPath>/cert/live/openflighthub.org/fullchain.pem</ChainCertPath>
+					<CertPath>/cert/live/stream.openflighthub.org/cert.pem</CertPath>
+					<KeyPath>/cert/live/stream.openflighthub.org/privkey.pem</KeyPath>
+					<ChainCertPath>/cert/live/stream.openflighthub.org/fullchain.pem</ChainCertPath>
 				</TLS>
 			</Host>
 
-			<!-- Refer https://airensoft.gitbook.io/ovenmediaengine/signedpolicy
-			<SignedPolicy>
-				<PolicyQueryKeyName>policy</PolicyQueryKeyName>
-				<SignatureQueryKeyName>signature</SignatureQueryKeyName>
-				<SecretKey>aKq#1kj</SecretKey>
-
-				<Enables>
-					<Providers>rtmp,webrtc,srt</Providers>
-					<Publishers>webrtc,llhls</Publishers>
-				</Enables>
-			</SignedPolicy>
-			-->
-
-			<!--
-			<OriginMapStore>
-				In order to use OriginMap, you must enable OVT Publisher in Origin and OVT Provider in Edge.
-				<RedisServer>
-					<Host>192.168.0.160:6379</Host>
-					<Auth>!@#ovenmediaengine</Auth>
-				</RedisServer>
-
-				This is only needed for the origin server and used to register the ovt address of the stream.
-				<OriginHostName>${env:OME_HOST_IP:192.168.0.160}</OriginHostName>
-			</OriginMapStore>
-			-->
-
-			<!-- Default CORS Settings -->
+			<!-- CORS Settings -->
 			<CrossDomains>
 				<Url>www.openflighthub.org</Url>
 				<Url>hub.openflighthub.org</Url>
@@ -182,87 +145,24 @@
 			<!-- Settings for applications -->
 			<Applications>
 				<Application>
-					<Name>app</Name>
+					<Name>ofh</Name>
 					<!-- Application type (live/vod) -->
 					<Type>live</Type>
 					<OutputProfiles>
-						<!--  This option is deprecated. Please use the 'HWAccels' option. -->
-						<!--
-							<HardwareAcceleration>false</HardwareAcceleration>
-						-->
 
 						<!-- Enable this configuration if you want to hardware acceleration using GPU -->
 						<HWAccels>
 							<Decoder>
 									<Enable>false</Enable>
-									<!--
-										Setting for Hardware Modules.
-										 - xma :Xilinx Media Accelerator
-										 - qsv :Intel Quick Sync Video
-										 - nv : Nvidia Video Codec SDK
-										 - nilogan: Netint VPU
-
-										You can use multiple modules by separating them with commas.
-										For example, if you want to use xma and nv, you can set it as follows.
-
-										<Modules>[ModuleName]:[DeviceId],[ModuleName]:[DeviceId],...</Modules>
-										<Modules>xma:0,nv:0</Modules>
-									-->
-									<!-- <Modules>nv</Modules> -->
 							</Decoder>
 							<Encoder>
 									<Enable>false</Enable>
-									<!-- <Modules>nv:0</Modules> -->
 							</Encoder>
 						</HWAccels>
 
 						<OutputProfile>
 							<Name>bypass_stream</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
-
-							<!--
-							You can provide ABR with Playlist. Currently, ABR is supported in LLHLS and WebRTC.
-
-							<Playlist>
-								<Name>Paid</Name>
-								You can play this playlist with
-								LLHLS : http[s]://<domain>[:port]/<app>/<stream>/<FileName>.m3u8
-								WebRTC : ws[s]://<domain>[:port]/<app>/<stream>/<FileName>
-								Note that the keywords "playlist" and "chunklist" MUST NOT be included in FileName.
-								<FileName>premium</FileName>
-
-								Options is optional.
-								<Options>
-									WebRtcAutoAbr : Default value is true
-									<WebRtcAutoAbr>true</WebRtcAutoAbr>
-								</Options>
-
-								<Rendition>
-									<Name>bypass</Name>
-									<Video>bypass_video</Video>
-									<Audio>bypass_audio</Audio>
-								</Rendition>
-								<Rendition>
-									<Name>480p</Name>
-									<Video>480p</Video>
-									<Audio>bypass_audio</Audio>
-								</Rendition>
-								<Rendition>
-									<Name>720p</Name>
-									<Video>720p</Video>
-									<Audio>bypass_audio</Audio>
-								</Rendition>
-							</Playlist>
-							<Playlist>
-								<Name>free</Name>
-								<FileName>free</FileName>
-								<Rendition>
-									<Name>720p</Name>
-									<Video>720p</Video>
-									<Audio>bypass_audio</Audio>
-								</Rendition>
-							</Playlist>
-							-->
 
 							<Encodes>
 								<Video>
@@ -289,26 +189,6 @@
 										<Codec>eq</Codec>
 									</BypassIfMatch>
 								</Audio>
-								<!--
-								<Video>
-									<Name>video_1280</Name>
-									<Codec>h264</Codec>
-									<Bitrate>5024000</Bitrate>
-									<Framerate>30</Framerate>
-									<Width>1920</Width>
-									<Height>1280</Height>
-									<Preset>faster</Preset>
-								</Video>
-								<Video>
-									<Name>video_720</Name>
-									<Codec>h264</Codec>
-									<Bitrate>2024000</Bitrate>
-									<Framerate>30</Framerate>
-									<Width>1280</Width>
-									<Height>720</Height>
-									<Preset>faster</Preset>
-								</Video>
-								-->
 							</Encodes>
 						</OutputProfile>
 					</OutputProfiles>
@@ -327,24 +207,6 @@
 							<MediaRootDir>/opt/ovenmediaengine/media</MediaRootDir>
 							<ScheduleFilesDir>/opt/ovenmediaengine/media</ScheduleFilesDir>
 						</Schedule>
-						<!-- <MPEGTS>
-							<StreamMap>
-									<- Set the stream name of the client connected to the port to "stream_${Port}"
-									For example, if a client connets to port 4000, OME creates a "stream_4000" stream ->
-									<Stream>
-										<Name>stream_${Port}</Name>
-										<Port>4000,4001-4004</Port>
-									</Stream>
-									<Stream>
-										<Name>stream_4005</Name>
-										<Port>4005</Port>
-									</Stream>
-								<Stream>
-									<Name>stream_${Port}</Name>
-									<Port>${env:OME_MPEGTS_PROV_PORT:4000-4005/udp}</Port>
-								</Stream>
-							</StreamMap>
-						</MPEGTS> -->
 					</Providers>
 					<Publishers>
 						<AppWorkerCount>1</AppWorkerCount>
@@ -359,15 +221,7 @@
 						</WebRTC>
 						<LLHLS>
 							<OriginMode>true</OriginMode>
-							<!--
-							<CacheControl>
-								<MasterPlaylistMaxAge>0</MasterPlaylistMaxAge>
-								<ChunklistMaxAge>0</ChunklistMaxAge>
-								<ChunklistWithDirectivesMaxAge>60</ChunklistWithDirectivesMaxAge>
-								<SegmentMaxAge>-1</SegmentMaxAge>
-								<PartialSegmentMaxAge>-1</PartialSegmentMaxAge>
-							</CacheControl>
-							-->
+
 							<ChunkDuration>0.5</ChunkDuration>
 							<!-- PartHoldBack SHOULD be at least three times the Part Target Duration -->
 							<PartHoldBack>1.5</PartHoldBack>
@@ -381,12 +235,6 @@
 						<HLS>
 							<SegmentCount>4</SegmentCount>
 							<SegmentDuration>4</SegmentDuration>
-							<!-- <DVR>
-								<Enable>true</Enable>
-								<EventPlaylistType>false</EventPlaylistType>
-								<TempStoragePath>/tmp/ome_dvr/</TempStoragePath>
-								<MaxDuration>600</MaxDuration>
-							</DVR> -->
 							<CrossDomains>
 								<Url>*</Url>
 							</CrossDomains>
