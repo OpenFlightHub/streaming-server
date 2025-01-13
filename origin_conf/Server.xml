@@ -240,6 +240,18 @@
 					</Publishers>
 				</Application>
 			</Applications>
+
+			<!-- use openflighthub api for authorization -->
+			<AdmissionWebhooks>
+				<ControlServerUrl>https://dev.openflighthub.org/api/ome-admission</ControlServerUrl>
+				<SecretKey>19s87761hkaisd9idsoij1s9898dh</SecretKey>
+				<Timeout>3000</Timeout>
+				<Enables>
+					<Providers>rtmp,webrtc,srt</Providers>
+					<Publishers>webrtc,llhls,thumbnail</Publishers>
+				</Enables>
+			</AdmissionWebhooks>
+
 		</VirtualHost>
 	</VirtualHosts>
 </Server>
