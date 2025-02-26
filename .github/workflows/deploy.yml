@@ -1,0 +1,31 @@
+env:
+  PROJECT_NAME: ofh-ome
+
+name: deploy-ome-service
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: [server]
+    steps:
+      - run: echo "HOME=$(pwd)" >> $GITHUB_ENV #fix https://github.com/actions/runner/issues/1864
+
+      - name: Clean Workspace Folder
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+
+      - uses: actions/checkout@v4
+        with:
+          path: repo
+
+      - name: Stop old docker container
+        run: docker stop ${{ env.PROJECT_NAME }} || true
+
+      - name: Remove old docker container
+        run: docker rm ${{ env.PROJECT_NAME }} || true
+
+      - name: Start new docker container
+        run: docker run --restart unless-stopped --name ${{ env.PROJECT_NAME }} -p 1935:1935 -p 9999:9999/udp -p 9000:9000 -p 3333:3333 -p 3334:3334 -p 3478:3478 -p 10000-10009:10000-10009/udp -v ${PWD}/origin_conf:/opt/ovenmediaengine/bin/origin_conf -v /etc/letsencrypt:/cert airensoft/ovenmediaengine:0.17.3 -d ${{ env.PROJECT_NAME }}
