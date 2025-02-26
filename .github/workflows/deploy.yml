@@ -28,4 +28,4 @@ jobs:
         run: docker rm ${{ env.PROJECT_NAME }} || true
 
       - name: Start new docker container
-        run: docker run --restart unless-stopped --name ${{ env.PROJECT_NAME }} -p 1935:1935 -p 9999:9999/udp -p 9000:9000 -p 3333:3333 -p 3334:3334 -p 3478:3478 -p 10000-10009:10000-10009/udp -v ./repo/origin_conf:/opt/ovenmediaengine/bin/origin_conf -v /etc/letsencrypt:/cert airensoft/ovenmediaengine:0.17.3
+        run: docker run --restart unless-stopped --name ${{ env.PROJECT_NAME }} -p 1935:1935 -p 9999:9999/udp -p 9000:9000 -p 3333:3333 -p 3334:3334 -p 3478:3478 -p 10000-10009:10000-10009/udp -v ./repo/origin_conf:/opt/ovenmediaengine/bin/origin_conf -v /etc/letsencrypt:/cert -d airensoft/ovenmediaengine:0.17.3
