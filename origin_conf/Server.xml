@@ -243,7 +243,7 @@
 
 			<!-- use openflighthub api for authorization -->
 			<AdmissionWebhooks>
-				<ControlServerUrl>https://dev.openflighthub.org/api/ome-admission</ControlServerUrl>
+				<ControlServerUrl>https://hub.openflighthub.org/api/ome-admission</ControlServerUrl>
 				<SecretKey>19s87761hkaisd9idsoij1s9898dh</SecretKey>
 				<Timeout>3000</Timeout>
 				<Enables>
